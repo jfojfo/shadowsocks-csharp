@@ -37,7 +37,7 @@ namespace Shadowsocks.Encryption
             Type t = _registeredEncryptors[method];
             ConstructorInfo c = t.GetConstructor(_constructorTypes);
             IEncryptor result = (IEncryptor)c.Invoke(new object[] { method, password });
-            return result;
+            return new EncryptorWrapper(result);
         }
     }
 }

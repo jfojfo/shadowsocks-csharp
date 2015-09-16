@@ -262,7 +262,7 @@ namespace Shadowsocks.Controller
         protected int _firstPacketLength;
         // Size of receive buffer.
         protected const int RecvSize = 16384;
-        protected const int BufferSize = RecvSize + 32;
+        protected const int BufferSize = (int)((RecvSize + 32) * 1.5);
         protected const int AutoSwitchOffErrorTimes = 50;
         // remote receive buffer
         protected byte[] remoteRecvBuffer = new byte[RecvSize];
@@ -637,6 +637,7 @@ namespace Shadowsocks.Controller
                 IPAddress ipAddress;
                 IPHostEntry ipHostInfo = Dns.EndGetHostEntry(ar);
                 ipAddress = ipHostInfo.AddressList[0];
+                server.DnsBuffer().UpdateDns(ipHostInfo.HostName, ipAddress);
                 int serverPort = server.server_port;
                 BeginConnect(ipAddress, serverPort);
             }
